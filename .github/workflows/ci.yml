@@ -1,0 +1,34 @@
+name: CI / CD Pipeline  # The name of the pipeline
+
+on:
+  push:
+    branches:
+      - main  # Trigger this pipeline when code is pushed to the 'main' branch
+
+jobs:
+  test:  # This is the job for running tests
+    runs-on: ubuntu-latest  # The environment in which the job will run (latest Ubuntu version)
+
+    steps:
+      - name: Checkout Code  # Step to checkout your code from the repository
+        uses: actions/checkout@v3  # GitHub's official action to checkout the code
+
+      - name: Set up Python  # Step to set up Python environment
+        uses: actions/setup-python@v4  # GitHub's official action to setup Python
+        with:
+          python-version: '3.x'  # Set the Python version to 3.x
+
+      - name: Install Dependencies  # Step to install dependencies
+        run: pip install -r hello-devops/requirements.txt  # Install dependencies listed in requirements.txt
+
+      - name: Run Tests  # Step to run the tests
+        run: python -m unittest discover -s hello-devops  # Discover and run tests using unittest
+
+  deploy:  # This is the job for deploying the application
+    runs-on: ubuntu-latest  # Runs on the same Ubuntu environment
+
+    needs: test  # This ensures that the deploy job will only run if the 'test' job passes
+
+    steps:
+      - name: Deploy App  # Step for deploying the application
+        run: echo "Deploying application..."  # This is a placeholder for your actual deployment script
