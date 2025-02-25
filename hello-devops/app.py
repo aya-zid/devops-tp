@@ -1,3 +1,3 @@
 # app.py
-print ("Hello , CI/CD!")
+print("Hello , CI/CD!")
 
