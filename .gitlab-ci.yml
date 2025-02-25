@@ -6,7 +6,7 @@ test-job:
   stage: test
   script:
     - echo "Running tests ..."
-    - python -m unittest discover -s hello -p "devops"
+    - python -m unittest discover -s hello-devops -p "devops"
 
 deploy-job:
   stage: deploy
