@@ -1,7 +1,7 @@
 stages:
   - test
   - deploy
-
+image: python:3.8
 test-job:
   stage: test
   script:
