@@ -22,7 +22,7 @@ test:
   stage: test
   script:
     - pip install -r hello-devops/requirements.txt  # Install dependencies
-    - python -m pytest hello-devops/  # Run pytest tests
+    - python -m pytest hello-devops/ --result-log=test-results.txt  # Run pytest tests
 
   # Artifacts section to store test results (e.g., test logs)
   artifacts:
