@@ -1,14 +1,38 @@
+image: python:3.9  # Use Python Docker image (version 3.9)
+
 stages:
+  - lint
   - test
   - deploy
-image: python:3.8
-test-job:
+
+# Cache dependencies to speed up builds (using pip cache)
+cache:
+  paths:
+    - .cache/pip
+
+# Lint job (using flake8 for Python linting)
+lint:
+  stage: lint
+  script:
+    - pip install flake8  # Install flake8 for linting
+    - flake8 hello-devops/  # Run flake8 on your project folder (replace with correct path)
+
+# Test job (install dependencies and run tests with pytest)
+test:
   stage: test
   script:
-    - echo "Running tests ..."
-    - python -m unittest discover -s hello-devops -p "devops"
+    - pip install -r hello-devops/requirements.txt  # Install dependencies
+    - python -m pytest hello-devops/  # Run pytest tests
 
-deploy-job:
+  # Artifacts section to store test results (e.g., test logs)
+  artifacts:
+    paths:
+      - test-results.txt  # Store test results (make sure pytest output is saved to this file)
+
+# Deploy job (manual trigger for deployment)
+deploy:
   stage: deploy
   script:
-    - echo "Deploying application ..."
+    - echo "Deploying to staging..."  # Deployment commands go here (e.g., deploy to a server)
+  when: manual  # This stage will only run when manually triggered
+
