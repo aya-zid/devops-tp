@@ -9,6 +9,10 @@ jobs:
   test:  # This is the job for running tests
     runs-on: ubuntu-latest  # The environment in which the job will run (latest Ubuntu version)
 
+    strategy:
+      matrix:
+        python-version: [3.8, 3.9]  # Run tests on both Python 3.8 and 3.9
+
     steps:
       - name: Checkout Code  # Step to checkout your code from the repository
         uses: actions/checkout@v3  # GitHub's official action to checkout the code
@@ -16,7 +20,7 @@ jobs:
       - name: Set up Python  # Step to set up Python environment
         uses: actions/setup-python@v4  # GitHub's official action to setup Python
         with:
-          python-version: '3.x'  # Set the Python version to 3.x
+          python-version: ${{ matrix.python-version }}  # Use the matrix Python version (3.8 or 3.9)
 
       - name: Install Dependencies  # Step to install dependencies
         run: pip install -r hello-devops/requirements.txt  # Install dependencies listed in requirements.txt
@@ -32,3 +36,12 @@ jobs:
     steps:
       - name: Deploy App  # Step for deploying the application
         run: echo "Deploying application..."  # This is a placeholder for your actual deployment script
+
+  notify:  # This is the job for sending Slack notification (simulation)
+    needs: test  # This ensures that the notify job will only run if the 'test' job passes
+    runs-on: ubuntu-latest  # Runs on the same Ubuntu environment
+
+    steps:
+      - name: Simulate Slack Notification  # Simulating sending a Slack notification
+        run: echo "Notifying Slack... (simulation)"  # Simulating Slack notification for now
+
