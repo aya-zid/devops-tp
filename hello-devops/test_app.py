@@ -1,10 +1,17 @@
 # test_app.py
-import unittest  # Import the unittest module for testing
+import unittest
+from app import app
 
-# For a simple example, we simply test True.
-class TestApp(unittest.TestCase):  # Define a test case class by subclassing unittest.TestCase
-    def test_output(self):  # Define a test method
-        self.assertTrue(True)  # The test checks if True is indeed True (this will always pass)
 
-if __name__ == "__main__":  # If this script is run directly (not imported)
-    unittest.main()  # Run the test cases
+class TestApp(unittest.TestCase):
+    
+    
+    def test_home_route(self):
+        tester = app.test_client(self)
+        response = tester.get('/')
+        self.assertEqual(response.status_code, 200)  
+        self.assertEqual(response.data.decode('utf-8'), "Hello, CI/CD!")  
+
+
+if __name__ == '__main__':
+    unittest.main()
